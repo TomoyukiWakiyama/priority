@@ -81,12 +81,12 @@
 
         // パスワードが一致していた場合
         if(!password_verify($password, $result['password'])){
-          session_regenerate_id(TRUE); //セッションidを再発行
+          session_regenerate_id(TRUE); // セッションidを再発行
           $_SESSION["login"] = true; // セッションを張る
-          $_SESSION['user_id'] = $result['id'];
+          $_SESSION['user_id'] = $result['id']; // user_idのセッションを張る
           $_SESSION['success_message'] = $result['name'] . 'さん ようこそ！';
           // トップページへ戻る(可能ならユーザがその前に訪れたページへ飛ばしたい)
-          header("Location: index.php"); //ログイン後のページにリダイレクト
+          header("Location: index.php"); // ログイン後のページにリダイレクト
           exit();
 
         } else {

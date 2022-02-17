@@ -4,8 +4,6 @@
 ==================================*/
 if(!empty($_POST['btn_submit'])){
 
-  // filter_input
-
   // 空白除去
   $title = preg_replace( '/\A[\p{C}\p{Z}]++|[\p{C}\p{Z}]++\z/u', '', $_POST['title']);
   $post = preg_replace( '/\A[\p{C}\p{Z}]++|[\p{C}\p{Z}]++\z/u', '', $_POST['post']);
@@ -23,12 +21,13 @@ if(!empty($_POST['btn_submit'])){
     $pdo -> beginTransaction();
     try{
       
-      $stmt = $pdo -> prepare('INSERT INTO todos (title, post,language, priority) VALUES(:title, :post, :language, :priority)');
+      $stmt = $pdo -> prepare('INSERT INTO todos (title, post,language, priority, user_id) VALUES(:title, :post, :language, :priority, :user_id)');
 
       $stmt -> bindParam(':title', $title, PDO::PARAM_STR);
       $stmt -> bindParam(':post', $post, PDO::PARAM_STR);
       $stmt -> bindParam(':language', $_POST['language'], PDO::PARAM_STR);
       $stmt -> bindParam(':priority', $_POST['priority'], PDO::PARAM_INT);
+      $stmt -> bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
     
       $res = $stmt -> execute();
       $res = $pdo -> commit();
